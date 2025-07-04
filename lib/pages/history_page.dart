@@ -17,10 +17,6 @@ class _HistoryPageState extends State<HistoryPage> {
 
   @override
   Widget build(BuildContext context) {
-    final filtered = controller.allTransactions
-        .where((e) => e.typeTransaction == selectedType)
-        .toList();
-
     return Scaffold(
       appBar: AppBar(title: Text('Riwayat Transaksi')),
       body: Column(
@@ -45,8 +41,11 @@ class _HistoryPageState extends State<HistoryPage> {
             ),
           ),
           Expanded(
-            child: Obx(
-              () => ListView.builder(
+            child: Obx(() {
+              final filtered = controller.allTransactions
+                  .where((e) => e.typeTransaction == selectedType)
+                  .toList();
+              return ListView.builder(
                 itemCount: filtered.length,
                 itemBuilder: (context, index) {
                   final item = filtered[index];
@@ -76,8 +75,8 @@ class _HistoryPageState extends State<HistoryPage> {
                     ),
                   );
                 },
-              ),
-            ),
+              );
+            }),
           ),
         ],
       ),
