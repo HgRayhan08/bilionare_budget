@@ -1,8 +1,8 @@
-
 // =======================
 // File: pages/bottom_navigasi_page.dart
 // =======================
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'home_page.dart';
 import 'diagram_page.dart';
 import 'history_page.dart';
@@ -14,11 +14,12 @@ class BottomNavigasiPage extends StatefulWidget {
 
 class _BottomNavigasiPageState extends State<BottomNavigasiPage> {
   int _selectedIndex = 0;
-
   final List<Widget> _pages = [HomePage(), DiagramPage(), HistoryPage()];
 
   void _onItemTapped(int index) {
-    setState(() => _selectedIndex = index);
+    setState(() {
+      _selectedIndex = index;
+    });
   }
 
   @override
@@ -26,12 +27,18 @@ class _BottomNavigasiPageState extends State<BottomNavigasiPage> {
     return Scaffold(
       body: _pages[_selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
+        backgroundColor: Colors.black,
         currentIndex: _selectedIndex,
+        selectedItemColor: Colors.pink,
+        unselectedItemColor: Colors.white,
         onTap: _onItemTapped,
-        items: [
+        items: const [
           BottomNavigationBarItem(icon: Icon(Icons.home), label: 'Home'),
-          BottomNavigationBarItem(icon: Icon(Icons.pie_chart), label: 'Diagram'),
-          BottomNavigationBarItem(icon: Icon(Icons.history), label: 'Riwayat'),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.pie_chart),
+            label: 'Diagram',
+          ),
+          BottomNavigationBarItem(icon: Icon(Icons.history), label: 'History'),
         ],
       ),
     );

@@ -5,6 +5,7 @@ import 'package:bilionare_budget/controller/transaction_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:fl_chart/fl_chart.dart';
+import 'package:intl/intl.dart';
 import '../models/transaction_model.dart';
 
 class DiagramPage extends StatefulWidget {
@@ -65,23 +66,15 @@ class _DiagramPageState extends State<DiagramPage> {
     final chartData = calculateTotalByType(filtered);
 
     return Scaffold(
-      appBar: AppBar(title: Text('Diagram')),
+      backgroundColor: Colors.black,
+      appBar: AppBar(
+        title: Text('Diagram', style: TextStyle(color: Colors.white)),
+        backgroundColor: Colors.black,
+      ),
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            Row(
-              children: [
-                DropdownButton<String>(
-                  value: selectedFilter,
-                  items: ['Hari', 'Minggu', 'Bulan']
-                      .map((e) => DropdownMenuItem(value: e, child: Text(e)))
-                      .toList(),
-                  onChanged: (val) => setState(() => selectedFilter = val!),
-                ),
-              ],
-            ),
-            SizedBox(height: 20),
             AspectRatio(
               aspectRatio: 1.3,
               child: PieChart(
@@ -93,23 +86,68 @@ class _DiagramPageState extends State<DiagramPage> {
               ),
             ),
             SizedBox(height: 20),
+            Center(
+              child: DropdownButton<String>(
+                value: selectedFilter,
+                dropdownColor: Colors.grey[900],
+                style: TextStyle(color: Colors.white),
+                items: ['Hari', 'Minggu', 'Bulan']
+                    .map((e) => DropdownMenuItem(value: e, child: Text(e)))
+                    .toList(),
+                onChanged: (val) => setState(() => selectedFilter = val!),
+              ),
+            ),
+            SizedBox(height: 20),
             Expanded(
               child: ListView.builder(
                 itemCount: filtered.length,
                 itemBuilder: (context, index) {
                   final item = filtered[index];
-                  return ListTile(
-                    title: Text(item.description ?? '-'),
-                    subtitle: Text(
-                      '${item.kategoriTransaction} - ${item.date.toLocal()}',
+                  return Container(
+                    margin: EdgeInsets.symmetric(vertical: 6),
+                    padding: EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: Color(0xFFD7D7D7),
+                      borderRadius: BorderRadius.circular(10),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.pink.withOpacity(0.3),
+                          blurRadius: 6,
+                          offset: Offset(0, 3),
+                        ),
+                      ],
                     ),
-                    trailing: Text(
-                      controller.formatCurrency(item.nominal),
-                      style: TextStyle(
-                        color: item.typeTransaction == 'Income'
-                            ? Colors.green
-                            : Colors.red,
-                      ),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                item.kategoriTransaction,
+                                style: TextStyle(fontWeight: FontWeight.bold),
+                              ),
+                              SizedBox(height: 4),
+                              Text(
+                                DateFormat('dd MM yyyy').format(item.date),
+                                style: TextStyle(
+                                  color: Colors.grey[700],
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Text(
+                          controller.formatCurrency(item.nominal),
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: item.typeTransaction == 'Income'
+                                ? Colors.green
+                                : Colors.red,
+                          ),
+                        ),
+                      ],
                     ),
                   );
                 },

@@ -51,7 +51,17 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('Tambah Transaksi')),
+      backgroundColor: Colors.black,
+      appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            Get.back();
+          },
+          icon: Icon(Icons.arrow_back, color: Colors.white),
+        ),
+        title: Text('Tambah Transaksi', style: TextStyle(color: Colors.white)),
+        backgroundColor: Colors.black,
+      ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
         child: Form(
@@ -62,9 +72,14 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
               Container(
                 padding: EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: Colors.blue.shade100,
+                  color: Color(0xFFF6F6F6),
                   borderRadius: BorderRadius.circular(8),
-                  boxShadow: [BoxShadow(color: Colors.black12, blurRadius: 4)],
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.pink.withOpacity(0.4),
+                      blurRadius: 6,
+                    ),
+                  ],
                 ),
                 child: Row(
                   children: [
@@ -92,19 +107,44 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
               TextFormField(
                 controller: _nominalController,
                 keyboardType: TextInputType.number,
-                decoration: InputDecoration(labelText: 'Nominal'),
+                style: TextStyle(color: Colors.white),
+                decoration: InputDecoration(
+                  labelText: 'Nominal',
+                  labelStyle: TextStyle(color: Colors.white),
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white),
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white),
+                  ),
+                ),
                 validator: (val) =>
                     val == null || val.isEmpty ? 'Wajib diisi' : null,
               ),
               SizedBox(height: 10),
               TextFormField(
                 controller: _descriptionController,
-                decoration: InputDecoration(labelText: 'Deskripsi (opsional)'),
+                style: TextStyle(color: Colors.white),
+                decoration: InputDecoration(
+                  labelText: 'Deskripsi (opsional)',
+                  labelStyle: TextStyle(color: Colors.white),
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white),
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white),
+                  ),
+                ),
               ),
               SizedBox(height: 10),
               DropdownButtonFormField<String>(
                 value: _selectedType,
-                decoration: InputDecoration(labelText: 'Tipe Transaksi'),
+                dropdownColor: Colors.grey[900],
+                decoration: InputDecoration(
+                  labelText: 'Tipe Transaksi',
+                  labelStyle: TextStyle(color: Colors.white),
+                ),
+                style: TextStyle(color: Colors.white),
                 items: ['Income', 'Expense']
                     .map(
                       (val) => DropdownMenuItem(value: val, child: Text(val)),
@@ -115,7 +155,12 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
               SizedBox(height: 10),
               DropdownButtonFormField<String>(
                 value: _selectedCategory,
-                decoration: InputDecoration(labelText: 'Kategori'),
+                dropdownColor: Colors.grey[900],
+                decoration: InputDecoration(
+                  labelText: 'Kategori',
+                  labelStyle: TextStyle(color: Colors.white),
+                ),
+                style: TextStyle(color: Colors.white),
                 items: ['Makan', 'Jalan-jalan', 'Belanja', 'Gaji', 'Lainnya']
                     .map(
                       (val) => DropdownMenuItem(value: val, child: Text(val)),
@@ -123,13 +168,18 @@ class _AddTransactionPageState extends State<AddTransactionPage> {
                     .toList(),
                 onChanged: (val) => setState(() => _selectedCategory = val!),
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 50),
               ElevatedButton(
                 onPressed: _submit,
-                child: Text('Simpan'),
                 style: ElevatedButton.styleFrom(
+                  backgroundColor: Color(0xFFB0DB9C),
+                  foregroundColor: Colors.black,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
                   minimumSize: Size.fromHeight(45),
                 ),
+                child: Text('Simpan'),
               ),
             ],
           ),
